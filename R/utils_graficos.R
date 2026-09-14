@@ -86,18 +86,33 @@ grafico_barras_100 <- function(data, variable, colores, xlab, archivo,
   })
 }
 
+# --- Moda ---------------------------------------------------------------
+# R no trae una función de moda incorporada. Se calcula como el valor exacto
+# más frecuente; si hay empate (multimodal), se informan todos los valores
+# modales.
+
+valores_modales <- function(x) {
+  frecuencias <- table(x)
+  as.numeric(names(frecuencias)[frecuencias == max(frecuencias)])
+}
+
+calcular_moda <- function(x) paste(valores_modales(x), collapse = ", ")
+
 # --- Resumen numérico: tendencia central, dispersión y posición --------------
 
 resumen_numerico <- function(data, variable) {
   x <- data[[variable]]
   data.frame(
-    min    = min(x),
-    max    = max(x),
-    rango  = max(x) - min(x),
-    iqr    = IQR(x),
-    var    = var(x),
-    sd     = sd(x),
-    cv_pct = sd(x) / mean(x) * 100
+    promedio = mean(x),
+    mediana  = median(x),
+    moda     = calcular_moda(x),
+    min      = min(x),
+    max      = max(x),
+    rango    = max(x) - min(x),
+    iqr      = IQR(x),
+    var      = var(x),
+    sd       = sd(x),
+    cv_pct   = sd(x) / mean(x) * 100
   )
 }
 
@@ -105,20 +120,38 @@ resumen_por_grupo <- function(data, variable, grupo = "Satisfaccion") {
   data %>%
     group_by(.data[[grupo]]) %>%
     summarise(
-      media   = mean(.data[[variable]]),
-      mediana = median(.data[[variable]]),
-      sd      = sd(.data[[variable]]),
-      cv_pct  = sd(.data[[variable]]) / mean(.data[[variable]]) * 100,
-      iqr     = IQR(.data[[variable]]),
-      min     = min(.data[[variable]]),
-      max     = max(.data[[variable]]),
-      .groups = "drop"
+      promedio = mean(.data[[variable]]),
+      mediana  = median(.data[[variable]]),
+      moda     = calcular_moda(.data[[variable]]),
+      sd       = sd(.data[[variable]]),
+      cv_pct   = sd(.data[[variable]]) / mean(.data[[variable]]) * 100,
+      iqr      = IQR(.data[[variable]]),
+      min      = min(.data[[variable]]),
+      max      = max(.data[[variable]]),
+      .groups  = "drop"
     )
 }
 
 # --- Histograma (ggplot2) -----------------------------------------------
+# Superpone líneas verticales con las medidas de tendencia central (media,
+# mediana, moda) y de posición (cuartiles Q1 y Q3).
+
+COLORES_MEDIDAS <- c(Media = "#08519C", Mediana = "#E6550D", Moda = "#31A354",
+                     Q1 = "#756BB1", Q3 = "#756BB1")
+LINETYPES_MEDIDAS <- c(Media = "solid", Mediana = "dashed", Moda = "dotted",
+                       Q1 = "dotdash", Q3 = "longdash")
 
 histograma <- function(data, variable, xlab, archivo, escala_log_y = FALSE) {
+  x <- data[[variable]]
+  moda    <- valores_modales(x)
+  cuartiles <- quantile(x, probs = c(0.25, 0.75))
+
+  medidas <- data.frame(
+    medida = factor(c("Media", "Mediana", rep("Moda", length(moda)), "Q1", "Q3"),
+                     levels = names(COLORES_MEDIDAS)),
+    valor  = c(mean(x), median(x), moda, cuartiles[[1]], cuartiles[[2]])
+  )
+
   escala_y <- if (escala_log_y) {
     scale_y_log10(name = "log10(Frecuencia absoluta)")
   } else {
@@ -127,6 +160,10 @@ histograma <- function(data, variable, xlab, archivo, escala_log_y = FALSE) {
 
   p <- ggplot(data, aes(x = .data[[variable]])) +
     geom_histogram(colour = "black", fill = "#6BAED6") +
+    geom_vline(data = medidas, aes(xintercept = valor, colour = medida, linetype = medida),
+               linewidth = 0.8) +
+    scale_colour_manual(name = "Medida", values = COLORES_MEDIDAS) +
+    scale_linetype_manual(name = "Medida", values = LINETYPES_MEDIDAS) +
     scale_x_continuous(name = xlab) +
     escala_y
 
