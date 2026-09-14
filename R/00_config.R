@@ -55,6 +55,10 @@ guardar_figura <- function(nombre_archivo, plot = NULL, expr_grafico_base = NULL
         width = ANCHO_FIGURA_CM, height = ALTO_FIGURA_CM,
         units = "cm", res = RESOLUCION_DPI)
     on.exit(dev.off())
+    # Margen superior ampliado para que los títulos largos, ya envueltos en
+    # varias líneas por ajustar_titulo(), no queden cortados por el borde
+    # de la figura.
+    par(mar = c(5, 4, 6, 2) + 0.1)
     expr_grafico_base()
   } else {
     stop("guardar_figura() requiere `plot` (objeto ggplot) o ",

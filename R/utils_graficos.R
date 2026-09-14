@@ -43,6 +43,16 @@ tabla_contingencia <- function(data, variable, tipo_porcentaje = c("total", "fil
   list(n = addmargins(tabla_n), porcentaje = round(addmargins(tabla_pct), 2))
 }
 
+# --- Ajuste de títulos largos ------------------------------------------------
+# Los gráficos base R (pie/barplot/boxplot) no ajustan automáticamente el
+# título al ancho de la figura: un título largo en una sola línea se corta
+# contra el borde de la imagen. Esta función lo envuelve en varias líneas.
+
+ajustar_titulo <- function(titulo, ancho = 40) {
+  if (is.null(titulo)) return(NULL)
+  paste(strwrap(titulo, width = ancho), collapse = "\n")
+}
+
 # --- Gráfico de sectores (pie) ------------------------------------------------
 # Por defecto usa los niveles del factor como etiquetas; se puede pasar
 # `etiquetas` para variables ordinales numéricas (ej. escalas 1 a 5).
@@ -55,7 +65,8 @@ grafico_torta <- function(data, variable, colores, titulo, archivo,
   etiquetas_pct <- paste0(etiquetas, " (", porcentajes, "%)")
 
   guardar_figura(archivo, expr_grafico_base = function() {
-    pie(as.numeric(porcentajes), etiquetas_pct, col = colores, main = titulo)
+    pie(as.numeric(porcentajes), etiquetas_pct, col = colores,
+        main = ajustar_titulo(titulo))
   })
 }
 
@@ -65,7 +76,7 @@ grafico_barras_conteo <- function(data, variable, colores, titulo, xlab, archivo
   frecuencias <- table(data[[variable]])
 
   guardar_figura(archivo, expr_grafico_base = function() {
-    barplot(frecuencias, main = titulo, xlab = xlab,
+    barplot(frecuencias, main = ajustar_titulo(titulo), xlab = xlab,
             ylab = "Cantidad de pasajeros", col = colores, las = 1)
   })
 }
@@ -78,7 +89,8 @@ grafico_barras_100 <- function(data, variable, colores, xlab, archivo,
 
   guardar_figura(archivo, expr_grafico_base = function() {
     barplot(prop.table(tabla, margin = 2) * 100,
-            xlab = xlab, ylab = "Frecuencia relativa (%)", main = titulo,
+            xlab = xlab, ylab = "Frecuencia relativa (%)",
+            main = ajustar_titulo(titulo),
             col = colores, ylim = c(0, 100),
             legend.text = rownames(tabla),
             args.legend = list(x = "topright", cex = 0.7, inset = c(-0.05, 0)),
@@ -192,7 +204,7 @@ histograma_por_grupo <- function(data, variable, xlab, archivo,
 boxplot_univariado <- function(data, variable, ylab, titulo, archivo,
                                 color = paleta_azules_5[4]) {
   guardar_figura(archivo, expr_grafico_base = function() {
-    boxplot(data[[variable]], col = color, ylab = ylab, main = titulo)
+    boxplot(data[[variable]], col = color, ylab = ylab, main = ajustar_titulo(titulo))
   })
 }
 
@@ -202,6 +214,6 @@ boxplot_comparativo <- function(data, variable, ylab, titulo, archivo,
 
   guardar_figura(archivo, expr_grafico_base = function() {
     boxplot(formula_grafico, data = data,
-            xlab = "Satisfacción", ylab = ylab, main = titulo, col = colores)
+            xlab = "Satisfacción", ylab = ylab, main = ajustar_titulo(titulo), col = colores)
   })
 }

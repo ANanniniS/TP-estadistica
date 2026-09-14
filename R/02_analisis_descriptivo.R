@@ -25,9 +25,6 @@ grafico_torta(encuestas, "Genero", colores = paleta_genero,
               titulo = "Distribución de pasajeros según género declarado",
               archivo = "genero_torta.png")
 
-grafico_barras_conteo(encuestas, "Genero", colores = paleta_genero,
-                       titulo = "Pasajeros según género declarado",
-                       xlab = "Género", archivo = "genero_barras.png")
 
 ## Bivariado vs. Satisfacción -----------------------------------------------
 
@@ -46,10 +43,6 @@ grafico_barras_100(encuestas, "Genero", colores = paleta_genero,
 
 resumen_numerico(encuestas, "Edad")
 
-boxplot_univariado(encuestas, "Edad", ylab = "Edad (años)",
-                    titulo = "Distribución de la edad de los pasajeros",
-                    archivo = "edad_boxplot.png")
-
 histograma(encuestas, "Edad", xlab = "Edad (años)", archivo = "edad_histograma.png")
 
 ## Bivariado vs. Satisfacción -----------------------------------------------
@@ -59,9 +52,6 @@ resumen_por_grupo(encuestas, "Edad")
 boxplot_comparativo(encuestas, "Edad", ylab = "Edad (años)",
                      titulo = "Distribución de la edad según el nivel de satisfacción",
                      archivo = "edad_boxplot_satisfaccion.png")
-
-histograma_por_grupo(encuestas, "Edad", xlab = "Edad (años)",
-                      archivo = "edad_histograma_satisfaccion.png")
 
 # =============================================================================
 # 3. Pasajero frecuente
@@ -74,10 +64,6 @@ tabla_frecuencias(encuestas, "Pasajero_frecuente")
 grafico_torta(encuestas, "Pasajero_frecuente", colores = paleta_azules_2,
               titulo = "Distribución de pasajeros según programa de pasajero frecuente",
               archivo = "pasajero_frecuente_torta.png")
-
-grafico_barras_conteo(encuestas, "Pasajero_frecuente", colores = paleta_azules_2,
-                       titulo = "Pasajeros según programa de pasajero frecuente",
-                       xlab = "Tipo de pasajero", archivo = "pasajero_frecuente_barras.png")
 
 ## Bivariado vs. Satisfacción -----------------------------------------------
 
@@ -98,10 +84,6 @@ tabla_frecuencias(encuestas, "Tipo_viaje")
 grafico_torta(encuestas, "Tipo_viaje", colores = paleta_azules_2,
               titulo = "Distribución de pasajeros según motivo del viaje",
               archivo = "tipo_viaje_torta.png")
-
-grafico_barras_conteo(encuestas, "Tipo_viaje", colores = paleta_azules_2,
-                       titulo = "Pasajeros según motivo del viaje",
-                       xlab = "Motivo del viaje", archivo = "tipo_viaje_barras.png")
 
 ## Bivariado vs. Satisfacción -----------------------------------------------
 
