@@ -1,9 +1,12 @@
 # 02_analisis_descriptivo.R
 # -----------------------------------------------------------------------------
-# Punto 1 del TP: análisis descriptivo univariado y bivariado (en relación a
-# la variable objetivo "Satisfaccion") de la encuesta de satisfacción de
-# pasajeros. Todas las figuras se guardan automáticamente en `figuras/` con
-# el mismo tamaño y resolución (ver R/00_config.R).
+# Punto 1 del TP: análisis descriptivo de la encuesta de satisfacción de
+# pasajeros. Para cada variable se presenta primero su análisis univariado y
+# luego su análisis bivariado en relación a la variable objetivo
+# (Satisfaccion). Las variables se analizan en el mismo orden en que aparecen
+# enumeradas en el enunciado del TP. Todas las figuras se guardan
+# automáticamente en `figuras/` con el mismo tamaño y resolución (ver
+# R/00_config.R).
 # -----------------------------------------------------------------------------
 
 source(here::here("R", "00_config.R"))
@@ -11,14 +14,10 @@ source(here::here("R", "utils_graficos.R"))
 source(here::here("R", "01_carga_y_preparacion.R"))
 
 # =============================================================================
-# I. ANÁLISIS UNIVARIADO
+# 1. Género
 # =============================================================================
 
-# -----------------------------------------------------------------------------
-# I.I Variables categóricas
-# -----------------------------------------------------------------------------
-
-## Género declarado -----------------------------------------------------------
+## Univariado -------------------------------------------------------------
 
 tabla_frecuencias(encuestas, "Genero")
 
@@ -30,7 +29,45 @@ grafico_barras_conteo(encuestas, "Genero", colores = paleta_genero,
                        titulo = "Pasajeros según género declarado",
                        xlab = "Género", archivo = "genero_barras.png")
 
-## Pasajero frecuente ----------------------------------------------------------
+## Bivariado vs. Satisfacción -----------------------------------------------
+
+tabla_contingencia(encuestas, "Genero", tipo_porcentaje = "total")
+tabla_contingencia(encuestas, "Genero", tipo_porcentaje = "fila")
+tabla_contingencia(encuestas, "Genero", tipo_porcentaje = "columna")
+
+grafico_barras_100(encuestas, "Genero", colores = paleta_genero,
+                    xlab = "Género", archivo = "genero_barras_100.png")
+
+# =============================================================================
+# 2. Edad
+# =============================================================================
+
+## Univariado -------------------------------------------------------------
+
+resumen_numerico(encuestas, "Edad")
+
+boxplot_univariado(encuestas, "Edad", ylab = "Edad (años)",
+                    titulo = "Distribución de la edad de los pasajeros",
+                    archivo = "edad_boxplot.png")
+
+histograma(encuestas, "Edad", xlab = "Edad (años)", archivo = "edad_histograma.png")
+
+## Bivariado vs. Satisfacción -----------------------------------------------
+
+resumen_por_grupo(encuestas, "Edad")
+
+boxplot_comparativo(encuestas, "Edad", ylab = "Edad (años)",
+                     titulo = "Distribución de la edad según el nivel de satisfacción",
+                     archivo = "edad_boxplot_satisfaccion.png")
+
+histograma_por_grupo(encuestas, "Edad", xlab = "Edad (años)",
+                      archivo = "edad_histograma_satisfaccion.png")
+
+# =============================================================================
+# 3. Pasajero frecuente
+# =============================================================================
+
+## Univariado -------------------------------------------------------------
 
 tabla_frecuencias(encuestas, "Pasajero_frecuente")
 
@@ -42,7 +79,19 @@ grafico_barras_conteo(encuestas, "Pasajero_frecuente", colores = paleta_azules_2
                        titulo = "Pasajeros según programa de pasajero frecuente",
                        xlab = "Tipo de pasajero", archivo = "pasajero_frecuente_barras.png")
 
-## Tipo de viaje ----------------------------------------------------------------
+## Bivariado vs. Satisfacción -----------------------------------------------
+
+tabla_contingencia(encuestas, "Pasajero_frecuente", tipo_porcentaje = "columna")
+
+grafico_barras_100(encuestas, "Pasajero_frecuente", colores = paleta_azules_2,
+                    xlab = "Tipo de pasajero",
+                    archivo = "pasajero_frecuente_barras_100.png")
+
+# =============================================================================
+# 4. Tipo de viaje
+# =============================================================================
+
+## Univariado -------------------------------------------------------------
 
 tabla_frecuencias(encuestas, "Tipo_viaje")
 
@@ -54,7 +103,18 @@ grafico_barras_conteo(encuestas, "Tipo_viaje", colores = paleta_azules_2,
                        titulo = "Pasajeros según motivo del viaje",
                        xlab = "Motivo del viaje", archivo = "tipo_viaje_barras.png")
 
-## Clase ------------------------------------------------------------------------
+## Bivariado vs. Satisfacción -----------------------------------------------
+
+tabla_contingencia(encuestas, "Tipo_viaje", tipo_porcentaje = "columna")
+
+grafico_barras_100(encuestas, "Tipo_viaje", colores = paleta_azules_2,
+                    xlab = "Motivo del viaje", archivo = "tipo_viaje_barras_100.png")
+
+# =============================================================================
+# 5. Clase
+# =============================================================================
+
+## Univariado -------------------------------------------------------------
 
 tabla_frecuencias(encuestas, "Clase")
 
@@ -66,7 +126,44 @@ grafico_barras_conteo(encuestas, "Clase", colores = paleta_azules_3,
                        titulo = "Pasajeros según clase en la que viajaron",
                        xlab = "Clase", archivo = "clase_barras.png")
 
-## Comodidad percibida -----------------------------------------------------------
+## Bivariado vs. Satisfacción -----------------------------------------------
+
+tabla_contingencia(encuestas, "Clase", tipo_porcentaje = "columna")
+
+grafico_barras_100(encuestas, "Clase", colores = paleta_azules_3,
+                    xlab = "Clase", archivo = "clase_barras_100.png")
+
+# =============================================================================
+# 6. Distancia volada
+# =============================================================================
+
+## Univariado -------------------------------------------------------------
+
+resumen_numerico(encuestas, "Distancia_volada")
+
+boxplot_univariado(encuestas, "Distancia_volada", ylab = "Distancia (km)",
+                    titulo = "Distribución de la distancia volada",
+                    archivo = "distancia_boxplot.png")
+
+histograma(encuestas, "Distancia_volada", xlab = "Distancia (km)",
+           archivo = "distancia_histograma.png")
+
+## Bivariado vs. Satisfacción -----------------------------------------------
+
+resumen_por_grupo(encuestas, "Distancia_volada")
+
+boxplot_comparativo(encuestas, "Distancia_volada", ylab = "Distancia (km)",
+                     titulo = "Distribución de la distancia según el nivel de satisfacción",
+                     archivo = "distancia_boxplot_satisfaccion.png")
+
+histograma_por_grupo(encuestas, "Distancia_volada", xlab = "Distancia (km)",
+                      archivo = "distancia_histograma_satisfaccion.png")
+
+# =============================================================================
+# 7. Comodidad
+# =============================================================================
+
+## Univariado -------------------------------------------------------------
 
 tabla_frecuencias(encuestas, "Comodidad")
 
@@ -79,7 +176,18 @@ grafico_barras_conteo(encuestas, "Comodidad", colores = paleta_azules_5,
                        titulo = "Pasajeros según comodidad percibida",
                        xlab = "Nivel de comodidad", archivo = "comodidad_barras.png")
 
-## Servicio a bordo ---------------------------------------------------------------
+## Bivariado vs. Satisfacción -----------------------------------------------
+
+tabla_contingencia(encuestas, "Comodidad", tipo_porcentaje = "columna")
+
+grafico_barras_100(encuestas, "Comodidad", colores = paleta_azules_5,
+                    xlab = "Nivel de comodidad", archivo = "comodidad_barras_100.png")
+
+# =============================================================================
+# 8. Servicio a bordo
+# =============================================================================
+
+## Univariado -------------------------------------------------------------
 
 tabla_frecuencias(encuestas, "Servicio_a_bordo")
 
@@ -93,47 +201,22 @@ grafico_barras_conteo(encuestas, "Servicio_a_bordo", colores = paleta_azules_5,
                        xlab = "Valoración del servicio a bordo",
                        archivo = "servicio_a_bordo_barras.png")
 
-## Satisfacción general -----------------------------------------------------------
+## Bivariado vs. Satisfacción -----------------------------------------------
 
-tabla_frecuencias(encuestas, "Satisfaccion")
+tabla_contingencia(encuestas, "Servicio_a_bordo", tipo_porcentaje = "columna")
 
-grafico_torta(encuestas, "Satisfaccion", colores = paleta_azules_2,
-              titulo = "Distribución de pasajeros según su nivel de satisfacción",
-              archivo = "satisfaccion_torta.png")
+grafico_barras_100(encuestas, "Servicio_a_bordo", colores = paleta_azules_5,
+                    xlab = "Valoración del servicio a bordo",
+                    archivo = "servicio_a_bordo_barras_100.png")
 
-grafico_barras_conteo(encuestas, "Satisfaccion", colores = paleta_azules_2,
-                       titulo = "Pasajeros según nivel de satisfacción",
-                       xlab = "Nivel de satisfacción", archivo = "satisfaccion_barras.png")
-
-# -----------------------------------------------------------------------------
-# I.II Variables numéricas
-# -----------------------------------------------------------------------------
-
-## Edad ---------------------------------------------------------------------------
-
-resumen_numerico(encuestas, "Edad")
-
-boxplot_univariado(encuestas, "Edad", ylab = "Edad (años)",
-                    titulo = "Distribución de la edad de los pasajeros",
-                    archivo = "edad_boxplot.png")
-
-histograma(encuestas, "Edad", xlab = "Edad (años)", archivo = "edad_histograma.png")
-
-## Distancia volada -----------------------------------------------------------------
-
-resumen_numerico(encuestas, "Distancia_volada")
-
-boxplot_univariado(encuestas, "Distancia_volada", ylab = "Distancia (km)",
-                    titulo = "Distribución de la distancia volada",
-                    archivo = "distancia_boxplot.png")
-
-histograma(encuestas, "Distancia_volada", xlab = "Distancia (km)",
-           archivo = "distancia_histograma.png")
-
-## Demora en el despegue --------------------------------------------------------------
+# =============================================================================
+# 9. Demora en el despegue
+# =============================================================================
 # La distribución está fuertemente asimétrica a la derecha (muchos vuelos sin
 # demora y una cola larga de demoras grandes), por lo que se agrega también un
 # histograma con escala logarítmica en el eje Y para visualizar mejor la cola.
+
+## Univariado -------------------------------------------------------------
 
 resumen_numerico(encuestas, "Demora_despegue")
 
@@ -147,87 +230,7 @@ histograma(encuestas, "Demora_despegue", xlab = "Demora (minutos)",
 histograma(encuestas, "Demora_despegue", xlab = "Demora (minutos)",
            archivo = "demora_histograma_log.png", escala_log_y = TRUE)
 
-# =============================================================================
-# II. ANÁLISIS BIVARIADO (en relación a la variable objetivo Satisfaccion)
-# =============================================================================
-
-# -----------------------------------------------------------------------------
-# II.I Variables categóricas vs. Satisfacción
-# -----------------------------------------------------------------------------
-
-## Género vs. Satisfacción -----------------------------------------------------------
-
-tabla_contingencia(encuestas, "Genero", tipo_porcentaje = "total")
-tabla_contingencia(encuestas, "Genero", tipo_porcentaje = "fila")
-tabla_contingencia(encuestas, "Genero", tipo_porcentaje = "columna")
-
-grafico_barras_100(encuestas, "Genero", colores = paleta_genero,
-                    xlab = "Género", archivo = "genero_barras_100.png")
-
-## Pasajero frecuente vs. Satisfacción -------------------------------------------------
-
-tabla_contingencia(encuestas, "Pasajero_frecuente", tipo_porcentaje = "columna")
-
-grafico_barras_100(encuestas, "Pasajero_frecuente", colores = paleta_azules_2,
-                    xlab = "Tipo de pasajero",
-                    archivo = "pasajero_frecuente_barras_100.png")
-
-## Tipo de viaje vs. Satisfacción -------------------------------------------------------
-
-tabla_contingencia(encuestas, "Tipo_viaje", tipo_porcentaje = "columna")
-
-grafico_barras_100(encuestas, "Tipo_viaje", colores = paleta_azules_2,
-                    xlab = "Motivo del viaje", archivo = "tipo_viaje_barras_100.png")
-
-## Clase vs. Satisfacción -----------------------------------------------------------------
-
-tabla_contingencia(encuestas, "Clase", tipo_porcentaje = "columna")
-
-grafico_barras_100(encuestas, "Clase", colores = paleta_azules_3,
-                    xlab = "Clase", archivo = "clase_barras_100.png")
-
-## Comodidad vs. Satisfacción --------------------------------------------------------------
-
-tabla_contingencia(encuestas, "Comodidad", tipo_porcentaje = "columna")
-
-grafico_barras_100(encuestas, "Comodidad", colores = paleta_azules_5,
-                    xlab = "Nivel de comodidad", archivo = "comodidad_barras_100.png")
-
-## Servicio a bordo vs. Satisfacción --------------------------------------------------------
-
-tabla_contingencia(encuestas, "Servicio_a_bordo", tipo_porcentaje = "columna")
-
-grafico_barras_100(encuestas, "Servicio_a_bordo", colores = paleta_azules_5,
-                    xlab = "Valoración del servicio a bordo",
-                    archivo = "servicio_a_bordo_barras_100.png")
-
-# -----------------------------------------------------------------------------
-# II.II Variables numéricas vs. Satisfacción
-# -----------------------------------------------------------------------------
-
-## Edad vs. Satisfacción -------------------------------------------------------------------
-
-resumen_por_grupo(encuestas, "Edad")
-
-boxplot_comparativo(encuestas, "Edad", ylab = "Edad (años)",
-                     titulo = "Distribución de la edad según el nivel de satisfacción",
-                     archivo = "edad_boxplot_satisfaccion.png")
-
-histograma_por_grupo(encuestas, "Edad", xlab = "Edad (años)",
-                      archivo = "edad_histograma_satisfaccion.png")
-
-## Distancia volada vs. Satisfacción -----------------------------------------------------------
-
-resumen_por_grupo(encuestas, "Distancia_volada")
-
-boxplot_comparativo(encuestas, "Distancia_volada", ylab = "Distancia (km)",
-                     titulo = "Distribución de la distancia según el nivel de satisfacción",
-                     archivo = "distancia_boxplot_satisfaccion.png")
-
-histograma_por_grupo(encuestas, "Distancia_volada", xlab = "Distancia (km)",
-                      archivo = "distancia_histograma_satisfaccion.png")
-
-## Demora en el despegue vs. Satisfacción -------------------------------------------------------
+## Bivariado vs. Satisfacción -----------------------------------------------
 
 resumen_por_grupo(encuestas, "Demora_despegue")
 
@@ -237,3 +240,19 @@ boxplot_comparativo(encuestas, "Demora_despegue", ylab = "Demora (minutos)",
 
 histograma_por_grupo(encuestas, "Demora_despegue", xlab = "Demora (minutos)",
                       archivo = "demora_histograma_satisfaccion.png")
+
+# =============================================================================
+# 10. Satisfacción (variable objetivo)
+# =============================================================================
+# Es la variable contra la que se compararon todas las anteriores, por lo que
+# aquí solo corresponde su análisis univariado.
+
+tabla_frecuencias(encuestas, "Satisfaccion")
+
+grafico_torta(encuestas, "Satisfaccion", colores = paleta_azules_2,
+              titulo = "Distribución de pasajeros según su nivel de satisfacción",
+              archivo = "satisfaccion_torta.png")
+
+grafico_barras_conteo(encuestas, "Satisfaccion", colores = paleta_azules_2,
+                       titulo = "Pasajeros según nivel de satisfacción",
+                       xlab = "Nivel de satisfacción", archivo = "satisfaccion_barras.png")
