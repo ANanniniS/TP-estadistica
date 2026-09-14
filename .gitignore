@@ -1,0 +1,11 @@
+# R
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# OS
+.DS_Store
+
+# Claude Code local settings
+.claude/
