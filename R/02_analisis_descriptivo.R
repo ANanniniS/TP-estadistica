@@ -123,9 +123,6 @@ grafico_barras_100(encuestas, "Clase", colores = paleta_azules_3,
 
 resumen_numerico(encuestas, "Distancia_volada")
 
-boxplot_univariado(encuestas, "Distancia_volada", ylab = "Distancia (km)",
-                    titulo = "Distribución de la distancia volada",
-                    archivo = "distancia_boxplot.png")
 
 histograma(encuestas, "Distancia_volada", xlab = "Distancia (km)",
            archivo = "distancia_histograma.png")
@@ -154,10 +151,6 @@ grafico_torta(encuestas, "Comodidad", colores = paleta_azules_5,
               archivo = "comodidad_torta.png",
               etiquetas = c("1 (menor comodidad)", "2", "3", "4", "5 (mayor comodidad)"))
 
-grafico_barras_conteo(encuestas, "Comodidad", colores = paleta_azules_5,
-                       titulo = "Pasajeros según comodidad percibida",
-                       xlab = "Nivel de comodidad", archivo = "comodidad_barras.png")
-
 ## Bivariado vs. Satisfacción -----------------------------------------------
 
 tabla_contingencia(encuestas, "Comodidad", tipo_porcentaje = "columna")
@@ -178,10 +171,6 @@ grafico_torta(encuestas, "Servicio_a_bordo", colores = paleta_azules_5,
               archivo = "servicio_a_bordo_torta.png",
               etiquetas = c("1 (menor valoración)", "2", "3", "4", "5 (mayor valoración)"))
 
-grafico_barras_conteo(encuestas, "Servicio_a_bordo", colores = paleta_azules_5,
-                       titulo = "Pasajeros según valoración del servicio a bordo",
-                       xlab = "Valoración del servicio a bordo",
-                       archivo = "servicio_a_bordo_barras.png")
 
 ## Bivariado vs. Satisfacción -----------------------------------------------
 
@@ -202,9 +191,6 @@ grafico_barras_100(encuestas, "Servicio_a_bordo", colores = paleta_azules_5,
 
 resumen_numerico(encuestas, "Demora_despegue")
 
-boxplot_univariado(encuestas, "Demora_despegue", ylab = "Demora (minutos)",
-                    titulo = "Distribución de la demora en el despegue",
-                    archivo = "demora_boxplot.png")
 
 histograma(encuestas, "Demora_despegue", xlab = "Demora (minutos)",
            archivo = "demora_histograma.png")
@@ -216,9 +202,6 @@ histograma(encuestas, "Demora_despegue", xlab = "Demora (minutos)",
 
 resumen_por_grupo(encuestas, "Demora_despegue")
 
-boxplot_comparativo(encuestas, "Demora_despegue", ylab = "Demora (minutos)",
-                     titulo = "Distribución de la demora según el nivel de satisfacción",
-                     archivo = "demora_boxplot_satisfaccion.png")
 
 histograma_por_grupo(encuestas, "Demora_despegue", xlab = "Demora (minutos)",
                       archivo = "demora_histograma_satisfaccion.png")
@@ -238,3 +221,6 @@ grafico_torta(encuestas, "Satisfaccion", colores = paleta_azules_2,
 grafico_barras_conteo(encuestas, "Satisfaccion", colores = paleta_azules_2,
                        titulo = "Pasajeros según nivel de satisfacción",
                        xlab = "Nivel de satisfacción", archivo = "satisfaccion_barras.png")
+
+
+
